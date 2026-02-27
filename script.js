@@ -19,3 +19,26 @@ document.querySelectorAll('.fi').forEach((item) => {
         item.classList.add('act');
     });
 });
+
+// Dark / Light mode toggle
+(function () {
+    const toggle = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+
+    // Apply saved preference on page load
+    const saved = localStorage.getItem('slidesense-theme');
+    if (saved === 'light') {
+        root.setAttribute('data-theme', 'light');
+    }
+
+    toggle.addEventListener('click', () => {
+        const isLight = root.getAttribute('data-theme') === 'light';
+        if (isLight) {
+            root.removeAttribute('data-theme');
+            localStorage.setItem('slidesense-theme', 'dark');
+        } else {
+            root.setAttribute('data-theme', 'light');
+            localStorage.setItem('slidesense-theme', 'light');
+        }
+    });
+})();
