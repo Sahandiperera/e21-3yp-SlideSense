@@ -5,8 +5,20 @@ repository-name: e21-3yp-SlideSense
 title: SlideSense
 ---
 
-# SlideSense: AI-Powered IoT Landslide Monitoring System
+<p align="center">
+  <img src="./images/logo.png" width="160"/>
+</p>
 
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Smart%20•%20Resilient%20•%20Real--Time-2ea44f?style=for-the-badge">
+</p>
+
+
+
+<p align="center">
+  <img src="./images/Probe.jpeg" width="450"/>
+</p>
 
 
 ## Team
@@ -15,16 +27,20 @@ title: SlideSense
 - E/21/302, Sahandi Perera, [e21302@eng.pdn.ac.lk](mailto:e21302@eng.pdn.ac.lk)
 - E/21/452, Zaid M.R.M., [e21452@eng.pdn.ac.lk](mailto:e21452@eng.pdn.ac.lk)
 
-![SlideSense Final Hardware Prototype](./images/hardware_prototype.png)
+
 
 #### Table of Contents
+
 1. [Introduction](#introduction)
-2. [Solution Architecture](#solution-architecture)
-3. [Hardware & Software Designs](#hardware-and-software-designs)
-4. [Testing](#testing)
-5. [Detailed Budget](#detailed-budget)
-6. [Conclusion](#conclusion)
-7. [Links](#links)
+2. [Overall System Architecture](#overall-system-architecture)
+3. [Data Flow Architecture](#data-flow-architecture)
+4. [Hardware Design](#hardware-design)
+5. [Software Architecture & Stack](#software-architecture--stack)
+6. [Project Timeline](#project-timeline)
+7. [Testing & Validation](#testing--validation)
+8. [Detailed Budget](#detailed-budget)
+9. [Conclusion & Future Work](#conclusion--future-work)
+10. [Links](#links)
 
 
 ## Introduction
@@ -36,70 +52,137 @@ The system moves beyond simple data logging by incorporating:
 - **Edge Intelligence:** Real-time threshold analysis on the ESP32 to trigger immediate local sirens.
 - **Resilience:** Designed to function even when external cellular networks fail during heavy storms.
 
+  
+## Overall System Architecture
 
-## Solution Architecture
-
-SlideSense follows a multi-tier IoT architecture to ensure data integrity and low-latency alerting.
-
-
+SlideSense follows a **multi-layer IoT architecture**:
 
 - **Perception Layer:** Distributed sensor nodes (ESP32) collect soil moisture, volumetric water content, and tilt data.
 - **Network Layer:** Data is transmitted via MQTT protocol to a central Raspberry Pi gateway and subsequently to the AWS IoT Core.
 - **Application Layer:** A React-based web dashboard and Firebase Cloud Messaging (FCM) provide localized alerts and historical data visualization for authorities.
 
 
-
-## Hardware and Software Designs
-
-### 1. Hardware Design
-The core node consists of an **ESP32 Microcontroller** interfaced with:
-- **Capacitive Soil Moisture Sensors:** To measure saturation levels without electrode corrosion.
-- **MPU6050 Accelerometer/Gyroscope:** To detect micro-movements or sudden shifts in soil strata.
-- **Tipping Bucket Rain Gauge:** To calculate rainfall intensity ($mm/hr$).
-- **Power Management:** A 3.7V Li-ion battery system integrated with a TP4056 charging module and a 5V solar panel.
-
-### 2. Software Design
-- **Firmware:** Developed using the Arduino framework with FreeRTOS to manage concurrent tasks like sensor sampling and MQTT publishing.
-- **Edge Analytics:** The ESP32 implements a "Burst Mode" logic—if moisture levels exceed a critical threshold ($>75\%$), the data sampling rate increases automatically.
-- **Backend:** A Node.js environment on the Raspberry Pi manages a local Mosquitto MQTT broker, ensuring data is logged locally even if the internet connection is lost.
+<p align="center">
+  <img src="./images/Overall_Position.png" width="750"/>
+</p>
 
 
+## Data Flow Architecture
 
-## Testing
+The system ensures reliable and redundant data transmission:
 
-### Hardware Testing
-- **Sensor Calibration:** Capacitive moisture sensors were calibrated using dry and saturated soil samples to map voltage levels to percentage values.
-- **Battery Life:** Power consumption analysis showed that in "Deep Sleep" mode, the node can operate for over 30 days on a single 2500mAh charge.
+1. Sensors collect environmental data  
+2. ESP32 performs edge analysis  
+3. Data transmitted via LoRa / SIM900A  
+4. Cloud (AWS/Firebase) processes & stores data  
+5. Alerts triggered via Dashboard / SMS / FCM  
 
-### Software & Connectivity Testing
-- **Latency Test:** Measured average MQTT publish-to-alert time of $<2$ seconds under stable network conditions.
-- **Failover Test:** Verified that the Raspberry Pi gateway successfully hosted a local Wi-Fi hotspot to broadcast alerts to nearby mobile devices when the WAN link was disconnected.
+<p align="center">
+  <img src="./images/data_flow.png" width="750"/>
+</p>
 
+
+##  Core Components
+
+- **ESP32 WROOM 32U**
+- **Capacitive Soil Moisture Sensors (x4)**
+- **Tipping Bucket Rain Gauge**
+- **High Sensitivity Microphone Sensor**
+- **LoRa RA-02 SX1278 Module**
+- **SIM900A GSM Module**
+- **20W Solar Panel**
+- **MPPT Charge Controller**
+- **3.7V Li-Po Battery**
+
+##  Power System
+
+- MPPT Solar Charging
+- 3.3V Regulation
+- Deep Sleep Power Optimization
+
+
+
+## Software Architecture & Stack
+
+## Firmware
+- Arduino Framework
+- FreeRTOS Task Management
+- MQTT Communication
+- Deep Sleep Mode
+
+##  Backend & Cloud
+- AWS IoT Core / Firebase
+- Mosquitto MQTT Broker
+- Node.js Gateway (Optional)
+- Firebase Cloud Messaging (Alerts)
+
+##  Frontend
+- React.js Dashboard
+- Real-time Data Visualization
+- Alert Monitoring Panel
+
+## 🛠 Software Stack Diagram
+
+<p align="center">
+  <img src="./images/Software_Stack.png" width="750"/>
+</p>
+
+##  Project Timeline
+
+The project was executed in four structured milestones:
+
+- Milestone 01 – Proposal & Planning  
+- Milestone 02 – Hardware Setup & Testing  
+- Milestone 03 – Working Prototype  
+- Milestone 04 – Final Product & Documentation  
+
+<p align="center">
+  <img src="./images/Time_line.png" width="900"/>
+</p>
+
+## Testing & Validation
+
+##  Hardware Testing
+- Soil moisture calibration (dry vs saturated soil)
+- Rain gauge pulse verification
+- Battery discharge & deep sleep measurement
+
+##  Connectivity Testing
+- MQTT latency: < 2 seconds
+- GSM fallback verification
+- LoRa range testing in open field
+
+##  Failover Testing
+- Local gateway broadcast when WAN disconnected
+- Alert triggering under simulated rainfall conditions
 
 ## Detailed Budget
 
 | Item | Quantity | Unit Cost (LKR) | Total (LKR) |
 | :--- | :---: | :---: | :---: |
-| ESP32 Development Board | 2 | 1,850 | 3,700 |
-| Raspberry Pi 4 (4GB) | 1 | 24,000 | 24,000 |
-| Capacitive Soil Moisture Sensor | 3 | 450 | 1,350 |
-| MPU6050 Gyro/Accel Sensor | 2 | 850 | 1,700 |
-| Rain Gauge Module | 1 | 2,500 | 2,500 |
-| Solar Panel (5V/2W) | 2 | 1,200 | 2,400 |
-| Li-ion Battery (18650) | 2 | 950 | 1,900 |
-| Enclosures & Misc (PVC, Wires) | - | 3,000 | 3,000 |
-| **Total Cost** | | | **40,550 LKR** |
+| 20W Solar Panel | 1 | 3,350 | 3,350 |
+| Li-Po Battery | 1 | 1,185 | 1,185 |
+| MPPT Controller | 1 | 1,450 | 1,450 |
+| Voltage Regulator | 1 | 120 | 120 |
+| ESP32 | 1 | 1,860 | 1,860 |
+| Soil Moisture Sensor | 4 | 290 | 1,160 |
+| Tipping Bucket | 1 | 4,000 | 4,000 |
+| LoRa Module | 1 | 1,500 | 1,500 |
+| Microphone Sensor | 1 | 200 | 200 |
+| SIM900A | 1 | 1,450 | 1,450 |
+| **Total Cost** |  |  | **16,275 LKR** |
 
 
+## Conclusion & Future Work
 
-## Conclusion
+SlideSense demonstrates a **cost-effective, scalable, and resilient landslide monitoring system** integrating edge intelligence with cloud-based alerts.
 
-SlideSense successfully demonstrates a cost-effective, scalable solution for landslide disaster mitigation. We achieved a stable integration between low-power hardware and cloud-based notification services. 
+### Future Enhancements
+- LoRaWAN integration for extended mountainous coverage  
+- Machine Learning (LSTM-based rainfall prediction)  
+- IP67-rated rugged enclosure  
+- Mobile application for public warning  
 
-**Future Work:**
-- Integration of **LoRaWAN** for better range in mountainous terrain.
-- Implementing **Machine Learning** (LSTM networks) on the cloud to predict landslide probability based on historical rainfall patterns.
-- Developing a ruggedized, 3D-printed IP67-rated enclosure for long-term field deployment.
 
 
 ## Links

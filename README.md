@@ -1,92 +1,159 @@
-# SlideSence: AI-Powered IoT Landslide Monitoring System 🏔️⚠️
+<p align="center">
+  <img src="./docs/images/logo.png" width="160"/>
+</p>
+
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Smart%20•%20Resilient%20•%20Real--Time-2ea44f?style=for-the-badge">
+</p>
+
+
+
+<p align="center">
+  <img src="./docs/images/Probe.jpeg" width="450"/>
+</p>
 
 [![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)](https://github.com/yourusername/SlideSence)
 [![Platform](https://img.shields.io/badge/Platform-ESP32%20%7C%20AWS%20IoT-blue)](https://aws.amazon.com/iot/)
 [![Language](https://img.shields.io/badge/Language-C%2B%2B%20%7C%20Python-green)](https://github.com/yourusername/SlideSence)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
-**SlideSence** is an advanced IoT-based early warning system designed to detect landslide-prone conditions and alert communities in real-time. By monitoring soil moisture, rainfall intensity, and ground stability, SlideSence bridges the gap between environmental data and life-saving alerts.
+
+## Team
+- E/21/087, Shihara Dewagedara, [e21087@eng.pdn.ac.lk](mailto:e21087@eng.pdn.ac.lk)
+- E/21/138, Fikry M.N.M., [e21138@eng.pdn.ac.lk](mailto:e21138@eng.pdn.ac.lk)
+- E/21/302, Sahandi Perera, [e21302@eng.pdn.ac.lk](mailto:e21302@eng.pdn.ac.lk)
+- E/21/452, Zaid M.R.M., [e21452@eng.pdn.ac.lk](mailto:e21452@eng.pdn.ac.lk)
 
 
 
-## 📖 Table of Contents
-- [Motivation](#-motivation)
-- [System Architecture](#-system-architecture)
-- [Key Features](#-key-features)
-- [Tech Stack](#-tech-stack)
-- [Hardware Requirements](#-hardware-requirements)
-- [Future Enhancements](#-future-enhancements)
+#### Table of Contents
+
+1. [Introduction](#introduction)
+2. [Overall System Architecture](#overall-system-architecture)
+3. [Data Flow Architecture](#data-flow-architecture)
+4. [Software Architecture & Stack](#software-architecture--stack)
+5. [Project Timeline](#project-timeline)
+6. [Detailed Budget](#detailed-budget)
+7. [Conclusion & Future Work](#conclusion--future-work)
+8. [Links](#links)
 
 
+## Introduction
 
-## 💡 Motivation
-Landslides often occur suddenly during extreme weather, frequently cutting off the very cellular and internet networks that traditional warning systems rely on. 
+Landslides remain a significant threat in hilly regions of Sri Lanka, often triggered by intense monsoon rainfall. **SlideSense** is an integrated IoT solution designed for real-time monitoring of high-risk slopes. 
 
-**SlideSence addresses:**
-* **Connectivity Gaps:** Reliable local communication when the cloud is unreachable.
-* **Power Constraints:** Optimized for remote, battery-powered deployments.
-* **Latency:** Real-time localized processing for immediate evacuation triggers.
+The system moves beyond simple data logging by incorporating:
+- **Redundant Communication:** Utilizing both Cloud (AWS/Firebase) and Local (Gateway) paths.
+- **Edge Intelligence:** Real-time threshold analysis on the ESP32 to trigger immediate local sirens.
+- **Resilience:** Designed to function even when external cellular networks fail during heavy storms.
 
+  
+## Overall System Architecture
 
+SlideSense follows a **multi-layer IoT architecture**:
 
-## 🏗 System Architecture
-
-
-
-The system operates across four distinct layers to ensure redundancy and reliability:
-
-1.  **Sensor Layer:** ESP32-linked sensors monitoring moisture, tilt, and rainfall.
-2.  **Edge Layer:** Local data processing on ESP32 with burst-mode capability during high-risk events.
-3.  **Gateway Layer:** A Raspberry Pi acting as a local MQTT broker and Wi-Fi hotspot during network failures.
-4.  **Cloud Layer:** AWS/Firebase integration for long-term storage, ML analysis, and global notifications (FCM).
+- **Perception Layer:** Distributed sensor nodes (ESP32) collect soil moisture, volumetric water content, and tilt data.
+- **Network Layer:** Data is transmitted via MQTT protocol to a central Raspberry Pi gateway and subsequently to the AWS IoT Core.
+- **Application Layer:** A React-based web dashboard and Firebase Cloud Messaging (FCM) provide localized alerts and historical data visualization for authorities.
 
 
+## Data Flow Architecture
 
-## 🚀 Key Features
-* **Hybrid Communication:** Uses MQTT for lightweight data transfer and Firebase (FCM) for push notifications.
-* **Multi-Level Alerts:** Three-tier logic system: `NORMAL` | `WARNING` | `DANGER`.
-* **Offline Resilience:** Gateway mode allows local device-to-device alerts even if the global internet fails.
-* **Power Efficient:** Deep-sleep cycles and solar-ready power management.
+The system ensures reliable and redundant data transmission:
 
+1. Sensors collect environmental data  
+2. ESP32 performs edge analysis  
+3. Data transmitted via LoRa / SIM900A  
+4. Cloud (AWS/Firebase) processes & stores data  
+5. Alerts triggered via Dashboard / SMS / FCM  
 
-
-## 🛠 Tech Stack
-| Component | Technology |
-| :--- | :--- |
-| **Microcontroller** | ESP32 (C++/Arduino) |
-| **Gateway** | Raspberry Pi (Python) |
-| **Communication** | MQTT, WebSockets |
-| **Cloud/Backend** | Firebase, AWS IoT Core |
-| **Analysis** | Python (NumPy, Pandas) |
-| **Frontend** | React/Flutter (Mobile & Web) |
-
-## ⚙️ Hardware Components
-* **ESP32:** Main processing unit for sensor nodes.
-* **Raspberry Pi (3/4):** Central gateway and local server.
-* **Sensors:** * Capacitive Soil Moisture Sensor
-    * Tipping Bucket Rain Gauge
-    * MPU6050 (Accelerometer/Gyroscope for tilt detection)
-* **Power:** 18650 Li-ion batteries + 5V Solar panels.
+<p align="center">
+  <img src="./docs/images/data_flow.png" width="750"/>
+</p>
 
 
+##  Core Components
 
-## 📈 Future Enhancements
-- [ ] **ML Integration:** Deploying TensorFlow Lite models on the Edge for better prediction accuracy.
-- [ ] **LoRaWAN Support:** Expanding range to 10km+ for deep valley deployments.
-- [ ] **SMS Fallback:** Integration with Twilio for non-smartphone users.
-- [ ] **Public API:** Allowing local authorities to pull real-time environmental data.
+- **ESP32 WROOM 32U**
+- **Capacitive Soil Moisture Sensors (x4)**
+- **Tipping Bucket Rain Gauge**
+- **High Sensitivity Microphone Sensor**
+- **LoRa RA-02 SX1278 Module**
+- **SIM900A GSM Module**
+- **20W Solar Panel**
+- **MPPT Charge Controller**
+- **3.7V Li-Po Battery**
+
+## ⚡ Power System
+
+- MPPT Solar Charging
+- 3.3V Regulation
+- Deep Sleep Power Optimization
 
 
-## 🤝 Contributing
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+## Software Architecture & Stack
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 🧠 Firmware
+- Arduino Framework
+- FreeRTOS Task Management
+- MQTT Communication
+- Deep Sleep Mode
+
+## ☁️ Backend & Cloud
+- AWS IoT Core / Firebase
+- Mosquitto MQTT Broker
+- Node.js Gateway (Optional)
+- Firebase Cloud Messaging (Alerts)
+
+## 🖥 Frontend
+- React.js Dashboard
+- Real-time Data Visualization
+- Alert Monitoring Panel
+
+## 🛠 Software Stack Diagram
+
+<p align="center">
+  <img src="./docs/images/Software_Stack.png" width="750"/>
+</p>
+
+##  Project Timeline
+
+The project was executed in four structured milestones:
+
+- Milestone 01 – Proposal & Planning  
+- Milestone 02 – Hardware Setup & Testing  
+- Milestone 03 – Working Prototype  
+- Milestone 04 – Final Product & Documentation  
+
+<p align="center">
+  <img src="./docs/images/Time_line.png" width="900"/>
+</p>
 
 
+## Detailed Budget
 
-## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
+| Item | Quantity | Unit Cost (LKR) | Total (LKR) |
+| :--- | :---: | :---: | :---: |
+| 20W Solar Panel | 1 | 3,350 | 3,350 |
+| Li-Po Battery | 1 | 1,185 | 1,185 |
+| MPPT Controller | 1 | 1,450 | 1,450 |
+| Voltage Regulator | 1 | 120 | 120 |
+| ESP32 | 1 | 1,860 | 1,860 |
+| Soil Moisture Sensor | 4 | 290 | 1,160 |
+| Tipping Bucket | 1 | 4,000 | 4,000 |
+| LoRa Module | 1 | 1,500 | 1,500 |
+| Microphone Sensor | 1 | 200 | 200 |
+| SIM900A | 1 | 1,450 | 1,450 |
+| **Total Cost** |  |  | **16,275 LKR** |
+
+
+## Conclusion & Future Work
+
+SlideSense demonstrates a **cost-effective, scalable, and resilient landslide monitoring system** integrating edge intelligence with cloud-based alerts.
+
+### Future Enhancements
+- LoRaWAN integration for extended mountainous coverage  
+- Machine Learning (LSTM-based rainfall prediction)  
+- IP67-rated rugged enclosure  
+- Mobile application for public warning  
