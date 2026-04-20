@@ -1,0 +1,36 @@
+3.0 Mobile Interface Architecture
+Dual-Connection approach
+Mobile app is designed to maintain two connections at the same time when possible. 
+3.1 How the App Connects
+? Mode A: The Parallel Link (Local)
+? The Setup: The app connects to the Raspberry Pi (via local Wi-Fi) AND the Cloud Server (via the Internet) simultaneously.
+? Show live, second-by-second updates from the ground sensors 
+? Heavy analysis charts from the internet without stopping the live stream.
+? Mode B: The Internet Link (Remote)
+? When the user is away from home, the phone connects to the Cloud server via the normal mobile internet (4G/5G).
+? Shows past data, safety trends, and account settings.
+? Allows users to check the safety of their home from anywhere in the world.
+3.2 Key App Features & Data Sources
+
+Real Time Data
+? If Local Connection is Active: The app displays Live Data directly from the Raspberry 
+       Pi. This is instant and happens in real-time.
+? If Local Connection is Lost/Away: The app automatically pulls the Last Synced Data from the Cloud Server. This ensures the screen is never empty, even if the user is miles away.
+Deep Analysis Data - Landslide Risk Predictions" or "Monthly Rainfall Trends."
+? This data always comes from the Cloud Server.
+
+3.3 Limiting the Number of Devices
+To make sure too many people don't crowd the system, we control access in three steps:
+1. Registration: A user signs up through the internet (Cloud). The system checks if their household has reached the device limit (e.g., max 5 phones per home).
+2. Digital Key: If they are under the limit, the app saves a secure "digital key" on their phone.
+3. Checking the Key: When the user walks near the probe, the Raspberry Pi checks this key. If the key is valid, the Pi shares the data. If not, it blocks the connection.
+
+
+3.4 Key Features of the App
+? Automatic Switching: The app is smart enough to know when you are near home. It switches from "Internet Mode" to "Direct Mode" automatically without you touching anything.
+? Combined View: It takes the live data from the probe and the safety reports from the cloud and combines them into one simple screen for the user.
+? Emergency Alarms: The app runs in the background. If the sensors detect a landslide risk, the phone will sound a loud alarm, even if the phone is in your pocket or the screen is off.
+3.5 Technology Choice
+? Choice: A standard Mobile App (Android/iOS).
+? Reason: We chose a mobile app instead of a website because an app can sound alarms when the phone is locked and can connect to the local probe's Wi-Fi much easier than a web browser can.
+

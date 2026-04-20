@@ -1,0 +1,118 @@
+Tab 1
+Sensors
+rain gauge sensor 
+moisture sensor
+Piezometer
+Tiltmeter
+Geophone
+strain gauge
+
+Dielectric moisture sensor is one of moisture sensor that can be used by embedding the sensor in soil vertically to measure soil wetness 
+
+Piezoelectric sensor was usually used to measure any land vibration sources that appeared since it can create slope instability. 
+
+The instability can be measured by tiltmeter that capturing the angle change of slope 
+
+strain gauge for measuring the strain of land during slope instability.
+
+Vibration caused by slope instability can be detected by geophone. 
+
+Requirements
+
+> Ability to analyze past data 
+> Think about having a blackbox like structure which stores the The on-chip FIFO
+memory core does not support burst read or write
+> consider managing data upload frequency through softwares
+
+
+
+Sensors
+MIcrocontrollers
+
+
+8051 micro controller - Price Rs 300
+Specs
+CPU: 8-bit Central Processing Unit.
+ROM: 4 KB on-chip program memory (Read-Only Memory).
+RAM: 128 bytes on-chip data memory (Random Access Memory).
+Timers/Counters: Two 16-bit timers/counters (Timer 0 and Timer 1).
+I/O Ports: Four 8-bit bidirectional ports (Total 32 I/O lines).
+
+
+
+LoraWan for wireless relay - around Rs 3000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Rain
+https://www.dfrobot.com/product-2689.html
+
+
+
+
+
+Moisture
+
+Ground Movement
+
+BNO055 - sensor
+a smart, 9-axis absolute orientation sensor from Bosch that combines a 3-axis accelerometer, 3-axis gyroscope, and 3-axis magnetometer
+
+Price around Rs 3000
+
+
+
+
+
+The SCA60C 
+ low-cost single-axis tilt/angle sensor module
+Price around Rs 3000
+
+
+
+
+
+
+
+
+
+
+
+
+Sound/Vibration
+
+
+Overview of IOT design
+
+Model of the Probe
+  
+Model of the Cloud and Web application system
+Requirements - User - Mobile interface in the designated Area
+1) Real time data access for the designated area
+2) Warning level indicator
+3) Emergency contacts
+
+Main Admin Web system
+       Real time data of probes
+	Database
+	Data analysis
+	Warning generation system
+	
+
+3rd party API 
