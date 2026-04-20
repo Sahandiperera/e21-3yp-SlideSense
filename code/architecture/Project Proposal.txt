@@ -1,0 +1,72 @@
+Project Proposal: IoT-Based Landslide Detection & Early Warning System
+
+1. Introduction
+This project proposes the development of a robust, real-time landslide detection system designed to monitor critical soil and environmental parameters in high-risk areas. The system utilizes a network of embedded sensor probes, a cloud-based processing engine, and a dual-connection mobile interface to ensure continuous monitoring even in unstable network conditions. Additionally, the system includes a dedicated public API to democratize access to environmental data for soil and rainfall research.
+
+2. Problem Statement
+Landslides pose a significant threat to communities in mountainous regions. Current monitoring solutions often lack real-time data accessibility for residents, rely heavily on stable internet connections (which may fail during disasters), and silo valuable environmental data that could be used for broader geological research.
+
+3. Project Objectives
+? Develop a Multi-Sensor Probe: To measure soil moisture, tilt, vibration, and rainfall in real-time.
+? Ensure Reliable Connectivity: Implement a "Dual-Connection" mobile architecture that functions via both local Wi-Fi (direct probe connection) and cellular networks (cloud connection).
+? Implement Early Warning System: Create a 3-level alert logic (Normal, Warning, Dangerous) to trigger immediate alarms for residents and authorities.
+? Facilitate Scientific Research: (New) Develop a secure 3rd-party API to expose anonymized soil and weather data to external researchers and institutions.
+4. Target Users
+
+
+
+
+4. System Architecture
+The system is divided into four primary layers:
+4.1. Hardware Layer (Embedded Probes)
+? Core Controller: ESP32 Central Unit acting as the aggregator for local probes.
+? Sensor Suite:
+? Soil Moisture: Dielectric sensors to measure saturation.
+? Rain Gauge: To track precipitation intensity.
+? Tilt/Orientation: BNO055 (9-axis absolute orientation) and SCA60C (single-axis tilt) to detect slope instability.
+? Vibration: Geophones or piezoelectric sensors to detect ground movement.
+? Communication: Wired (RS485) or Wireless (LoRa/ESP-NOW) communication between probes and the Central Unit.
+4.2. Cloud Backend Layer (AWS)
+? Platform: AWS EC2 for hosting the backend and AWS IoT Core for device management.
+? Database:
+? Time-Series Data: PostgreSQL with TimescaleDB extension (or InfluxDB) to efficiently handle high-frequency sensor readings.
+? Relational Data: AWS RDS for storing user profiles, probe locations, and alert history.
+? Processing Engine: A Python-based engine (FastAPI) that validates JSON payloads, runs risk analysis algorithms, and triggers notifications.
+4.3. Interface Layer
+? User Mobile App: A smart application that automatically switches between "Internet Mode" (4G/5G) and "Direct Mode" (Local Wi-Fi) based on proximity to the home. It ensures alarms sound even if the phone is locked.
+? Admin Web Dashboard: A React-based web console for authorities to monitor all probe statuses, visualize trends, and configure safety thresholds.
+4.4. Research & External Access Layer (New)
+? 3rd Party Research API: A dedicated REST API endpoint separate from the core application flow.
+? Purpose: Allows universities and geological institutes to fetch historical datasets (rainfall patterns, soil moisture retention trends).
+? Security: Rate-limited and read-only access to non-sensitive sensor data.
+
+
+5. Key Features & Functionality
+5.1. Intelligent Data Sampling
+? Normal Mode: Sensors collect data every 15 minutes to conserve power.
+? Danger/Burst Mode: If vibration or tilt thresholds are crossed, the system automatically switches to 10-second intervals to capture the event in high resolution.
+5.2. The Dual-Connection Mobile App
+? Scenario A (At Home): The app connects directly to the Raspberry Pi/Central Unit via local Wi-Fi to show live, second-by-second updates without needing the internet.
+? Scenario B (Away): The app connects via the Cloud to show safety trends and last  synced data.
+5.3. 3-Level Warning Logic
+1. Normal: Values are within safe limits.
+2. Warning: A specific threshold (e.g., moisture level) has been crossed.
+3. Dangerous: Multiple parameters (e.g., vibration + high moisture) are critical, triggering immediate sirens.
+6. Technical Implementation Strategy
+6.1. Technology Stack
+ComponentTechnologyReasoningBackend LanguagePythonIndustry standard for data analysis.API FrameworkFastAPILightweight, handles async IoT requests well.Device ProtocolMQTTLightweight messaging, saves battery compared to HTTP.DatabasePostgreSQL + TimescaleDBOptimized for "Show moisture for last 6 months" queries.Mobile FrontendAndroid/iOS (Native or Flutter)Required for background alarm capabilities.
+
+
+6.2. Security & Access Control
+? Device Limit: A "Digital Key" system ensures only authorized household members (max 2 per household) can connect to the local probe to prevent overcrowding.
+? Cloud Auth: JWT/API Keys for secure interaction between the app and the AWS backend.
+7. Research Data API Specification (Draft)
+To fulfill the requirement for supporting soil and rainfall research, the system will expose the following endpoints:
+? GET /api/v1/public/rainfall-history: Returns time-series precipitation data for a specified region.
+? GET /api/v1/public/soil-saturation: Returns moisture retention logs useful for agricultural and geological studies.
+? Note: This API will bypass user-specific data (like account details) and strictly provide environmental metrics.
+ANTI Theft Mechanism
+Providing a small electric current to give a slight shock when touched.
+8. Conclusion
+This project bridges the gap between hardware sensors and user safety through a sophisticated hybrid-connectivity architecture. By combining immediate local alerts with powerful cloud analytics and opening the data vault to researchers, this system serves not only as a warning mechanism but as a tool for long-term geological study.
+
